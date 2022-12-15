@@ -1,0 +1,36 @@
+name: 'Node Publishr'
+description: 'Github Action that allows you to push commits, publish artifacts, generate a changelog & create a release'
+inputs:
+  version_metadata_path:
+    description: 'Path to file containing Version string'
+    required: true
+    default: 'package.json'
+  author_name:
+    description: 'Commit Author'
+    required: true
+    default: 'packagrio-bot'
+  author_email:
+    description: 'Commit Author Email'
+    required: true
+    default: 'packagr-io[bot]@users.noreply.github.com'
+  upload_assets:
+    description: 'Assets to upload'
+    required: false
+  cwd:
+    description: 'Working Directory'
+    required: false
+    default: ''
+outputs:
+  version: # id of output
+    description: 'Version that was written to files'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    PACKAGR_VERSION_METADATA_PATH: ${{ inputs.version_metadata_path }}
+    PACKAGR_ENGINE_GIT_AUTHOR_NAME: ${{ inputs.author_name }}
+    PACKAGR_ENGINE_GIT_AUTHOR_EMAIL: ${{ inputs.author_email }}
+    PACKAGR_SCM_RELEASE_ASSETS: ${{ inputs.upload_assets }}
+branding:
+  icon: 'package'
+  color: 'red'
